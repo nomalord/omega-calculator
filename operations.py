@@ -1,7 +1,7 @@
 operator_dict = {'+':1, '-':1, '*':2, '/':2, '^':3, '%':4,
-                 '$':5, '&':5, '@':5, '~':6, '!':6}
+                 '$':5, '&':5, '@':5, '~':6, '!':6, '#':6,}
 
-OPERATIONS = ['+', '-', '*', '/', '^', '%', '$', '&', '@', '~', '!', '(', ')']
+OPERATIONS = ['+', '-', '*', '/', '^', '%', '$', '&', '@', '~', '!','#', '(', ')']
 
 def add(num1, num2):
     return num1 + num2
@@ -46,6 +46,29 @@ def factorial(num):
     else:
         return num * factorial(num - 1)
 
-def negative(num):
+def tilda(num):
     """Returns the negative value of a number (~)."""
     num*-1
+
+def hashtag(num):
+    """returns the sum of a the digits of a number (#)."""
+    sum = 0
+    while(num > 0):
+        sum += num % 10
+        num = num // 10
+    return sum
+
+
+def minus_clean(expression):
+    """Removes the negative sign from the expression."""
+    lst = []
+    for i in range(len(expression)):
+        if(expression[i] == '-'):
+            if(i != 0):
+                if(expression[i-1].isdigit()):
+                    continue
+                else:
+                    expression[i] = '~'
+            else:
+                expression[i] = '~'
+    return expression

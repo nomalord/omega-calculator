@@ -1,23 +1,5 @@
-operator_dict = {'+':1, '-':1, '*':2, '/':2, '^':3, '%':4,
-                 '$':5, '&':5, '@':5, '~':6, '!':6, '(':7, ')':7}
+operator_dict = {'+':1, '-':1, '*':2, '/':2, '^':3, '%':4, '$':5, '&':5,'@':5,'~':6,'!':6, '(':7, ')':7}
 
-def add(num1, num2):
-    return num1 + num2
-
-def subtract(num1, num2):
-    return num1 - num2
-
-def multiply(num1, num2):
-    return num1 * num2
-
-def divide(num1, num2):
-    return num1 / num2
-
-def power(num1, num2):
-    return num1 ** num2
-
-def modulus(num1, num2):
-    return num1 % num2
 
 def maximum(num1, num2):
     """Returns the maximum of two numbers ($)."""
