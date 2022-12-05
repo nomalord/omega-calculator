@@ -11,12 +11,7 @@ def clean_input(calc_space_string):
                 pass
             case _:
                 if(char.isdigit()):
-                    if(space_check_digit(calc_space_string[count+1:])):                    
-                        print("Invalid input, there cannot space between operands")
-                        return
-                    else:
-                        valid_calc_string += char                    
-                    
+                    valid_calc_string += char
                 elif(char in op.OPERATIONS):
                     if(space_check_operation(calc_space_string[count+1:], char)):
                         print("Invalid input, there cannot be two operations next to each other")
@@ -29,22 +24,22 @@ def clean_input(calc_space_string):
         count += 1
     return valid_calc_string
 
-def space_check_digit(string_digit_check):
-    """Checks if there is a space between two digits, returns false if there is not"""
-    space = False
-    for char in string_digit_check:
-        match char:
-            case ' ':
-                space = True
-                continue
-            case '\t':
-                space = True
-                continue
-            case _:
-                if(char.isdigit() and space):
-                    return True
-                else:
-                    return False
+# def space_check_digit(string_digit_check):
+#     """Checks if there is a space between two digits, returns false if there is not"""
+#     space = False
+#     for char in string_digit_check:
+#         match char:
+#             case ' ':
+#                 space = True
+#                 continue
+#             case '\t':
+#                 space = True
+#                 continue
+#             case _:
+#                 if(char.isdigit() and space):
+#                     return True
+#                 else:
+#                     return False
 
 def space_check_operation(string_operation_check, og_char):
     """Checks if there is a space between two operations, returns false if there is not or if operator is -"""
