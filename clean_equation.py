@@ -15,12 +15,20 @@ def clean_input(calc_string, valid_calc_string):
                 print("or a closing parenthesis before a digit")
                 return
         elif(calc_string[count] in op.operation_object.keys() or calc_string[count] == '(' or calc_string[count] == ')'):
-            if(check_operation(calc_string[count+1:], calc_string[count])):
-                print("Invalid input, there cannot be two operations next to each other")
+
+            num_check_before_minus = calc_string[count] == '-' and (count == 0 or calc_string[count-1].isdigit() 
+            or calc_string[count-1] == ')' or calc_string[count-1] == '(')
+
+            if(check_operation(calc_string[count+1:], calc_string[count], num_check_before_minus)):
+                print("Invalid input, there cannot be two operations next to each other that are"+
+                "not minuses or an operation next to a minus without a number or bracket before it")
                 return
             else:
                 if(calc_string[count] == '-'):
                     toupleCheck = minus_clean(calc_string[count:])
+                    if(toupleCheck[0] == '+'):
+                        clean_input(calc_string[toupleCheck[1]+count:], valid_calc_string)
+                        return
                     valid_calc_string.append(toupleCheck[0])
                     clean_input(calc_string[toupleCheck[1]+count:], valid_calc_string)
                     return
@@ -29,10 +37,12 @@ def clean_input(calc_string, valid_calc_string):
         else:
             print("invalid input, only parenthesis, numbers and operations are allowed")
             return
+    plus_removal(valid_calc_string)
+
     print(valid_calc_string)
     mathh = MathExpression()
     mathh.set_expression_from_string(listToString(valid_calc_string))
-    print(mathh.get_expression())
+    mathh.parenthesis_checker()
     print()
 
 def check_digit_parenth(string_digit_check):
@@ -46,7 +56,7 @@ def check_digit_parenth(string_digit_check):
     return True
 
 
-def check_operation(string_operation_check, og_char):
+def check_operation(string_operation_check, og_char, num_check_before_minus):
     """Checks if there are two operations back to back, returns false if they are not or if operator is -"""
     for char in string_operation_check:
         if(char in op.operation_object.keys()):
@@ -54,6 +64,8 @@ def check_operation(string_operation_check, og_char):
                 case '-':
                     if(og_char == '-'):
                         return False
+                    elif(num_check_before_minus):
+                        return True
                 case '(':
                     if(og_char == '('):
                         return False
@@ -92,6 +104,11 @@ def listToString(s):
  
     # return string
     return str1
+
+def plus_removal(valid_calc_string):
+    for item in range(len(valid_calc_string)-1):
+        if(valid_calc_string[item] == '+'):
+            if(valid_calc_string[item+1] == '-'): del valid_calc_string[item]
 
 
 

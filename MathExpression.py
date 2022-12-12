@@ -33,10 +33,6 @@ class MathExpression:
         if(count+1 < len(input_list_str)):
             self.set_expression_from_string(input_list_str[count+1:])
 
-        self.parenthesis_checker()
-        self.parenthesis_list_index()
-
-
     def parenthesis_checker(self):
         """Checks if there are an equal amount of left and right parenthesis"""
         countleft, countright = 0, 0
@@ -51,12 +47,7 @@ class MathExpression:
         if(countleft != countright):
             print("Invalid input, there are an unequal amount of left and right parenthesis")
             return
-        self.parenthesis_tokenizer()
-
-
-    def parenthesis_tokenizer(self):
-        
-        pass
+        self.parenthesis_list_index()
 
     def parenthesis_list_index(self):
         """Finds the index of the parenthesis and creates a new MathExpression object for the expression inside the parenthesis"""
