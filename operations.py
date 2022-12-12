@@ -1,7 +1,13 @@
+from Operator import PairOperator, RightOperator, LeftOperator
 operator_dict = {'+':1, '-':1, '*':2, '/':2, '^':3, '%':4,
                  '$':5, '&':5, '@':5, '~':6, '!':6, '#':6,}
 
 OPERATIONS = ['+', '-', '*', '/', '^', '%', '$', '&', '@', '~', '!','#', '(', ')']
+
+operation_object = {'+':PairOperator('+', 1),'-': PairOperator('-', 1),'*': PairOperator('*', 2),
+                    '/':PairOperator('/', 2),'^': PairOperator('^', 3),'%': PairOperator('%', 4),
+                    '$':PairOperator('$', 5),'&': PairOperator('&', 5),'@': PairOperator('@', 5),
+                    '~':LeftOperator('~', 6),'!': RightOperator('!', 6),'#': RightOperator('#', 6)}
 
 def add(num1, num2):
     return num1 + num2
@@ -46,11 +52,11 @@ def factorial(num):
     else:
         return num * factorial(num - 1)
 
-def tilda(num):
+def negative(num):
     """Returns the negative value of a number (~)."""
     num*-1
 
-def hashtag(num):
+def sum_digits(num):
     """returns the sum of a the digits of a number (#)."""
     sum = 0
     while(num > 0):
