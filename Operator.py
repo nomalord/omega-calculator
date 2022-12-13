@@ -14,8 +14,8 @@ class Operator():
 class PairOperator(Operator):
     def __init__(self, operator, priority):
         super().__init__(operator, priority)
-        self.left = 0
-        self.right = 0
+        self.left = None
+        self.right = None
 
     def action(self):
         match self.operator:
@@ -43,7 +43,7 @@ class PairOperator(Operator):
 class RightOperator(Operator):
     def __init__(self, operator, priority):
         super().__init__(operator, priority)
-        self.right = 0
+        self.right = None
 
     def action(self):
         match self.operator:
@@ -57,7 +57,7 @@ class RightOperator(Operator):
 class LeftOperator(Operator):
     def __init__(self, operator, priority):
         super().__init__(operator, priority)
-        self.left = 0
+        self.left = None
 
     def action(self):
         match self.operator:

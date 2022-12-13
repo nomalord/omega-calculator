@@ -45,6 +45,9 @@ def average(num1, num2):
 
 def factorial(num):
     """Returns the factorial of a number (!)."""
+    if(num < 0):
+        print("Cannot take the factorial of a negative number.")
+        return
     try:
         if(num == 0):
             return 1

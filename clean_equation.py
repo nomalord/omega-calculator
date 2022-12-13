@@ -53,6 +53,7 @@ def clean_input(calc_string, valid_calc_string):
     if(not mathh.left_right_operator_check()):
         return
     mathh.parenthesis_checker()
+    mathh.sort_expression()
     print()
 
 def check_digit_parenth(string_digit_check):

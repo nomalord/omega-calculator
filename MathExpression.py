@@ -1,4 +1,5 @@
 import operations as op
+from Operator import PairOperator, RightOperator, LeftOperator, Operator
 
 class MathExpression:
     def __init__(self):
@@ -85,10 +86,28 @@ class MathExpression:
             elif isinstance(self.expression[i], op.LeftOperator):
                 if i != 0:
                     if(self.expression[i-1] == ')' or type(self.expression[i-1]) == int):
-                        print("Invalid input, there cannot be a number after the operator")
+                        print("Invalid input, there cannot be a number before the operator")
                         return False
+                    if(isinstance(self.expression[i-1], op.PairOperator)):
+                        if(i-2 < 0 or self.expression[i-2] == '('):
+                            self.expression[i-1] = '-'
+                            continue
+                        else:
+                            print("Invalid input, there cannot be a minus before a left operator")
+                            return False
         return True
 
+    def sort_expression(self):
+        """sorts the expression's operators by priority in a dictionary that stores index"""
+        priority_dict = {}
+        for i in range(len(self.expression)):
+            if isinstance(self.expression[i], Operator):
+                if self.expression[i].priority not in priority_dict.keys():
+                    priority_dict[self.expression[i].priority] = [i]
+                else:
+                    priority_dict[self.expression[i].priority].append(i)
+        return priority_dict
+    
     def evaluate(self):
         if(self.parenth_exist):
             for i in range(len(self.expression)):
@@ -96,8 +115,12 @@ class MathExpression:
                     self.expression[i].evaluate()
         else:
             for i in range(len(self.expression)):
-                pass
-        pass
+                if(isinstance(self.expression[i], op.PairOperator)):
+                    pass
+                if(isinstance(self.expression[i], op.RightOperator)):
+                    pass
+                if(isinstance(self.expression[i], op.LeftOperator)):
+                    pass
 
 
 # count = MathExpression()
