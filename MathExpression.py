@@ -4,7 +4,7 @@ class MathExpression:
     def __init__(self):
         self.expression = []
         self.result = None # type: float
-        self.error = None # type: str
+        self.parenth_exist = False # type: bool
 
     def __str__(self) -> str:
         return "math"
@@ -29,7 +29,10 @@ class MathExpression:
                 case ')':
                     self.expression.append(')')
                 case _:
-                    self.expression.append(op.operation_object[input_list_str[count]])
+                    if(input_list_str[count] not in op.operation_object.keys()):
+                        self.expression.append(input_list_str[count])
+                    else:
+                        self.expression.append(op.operation_object[input_list_str[count]])
         if(count+1 < len(input_list_str)):
             self.set_expression_from_string(input_list_str[count+1:])
 
@@ -58,6 +61,7 @@ class MathExpression:
             elif self.expression[i] == ")":
                 pop = stack.pop()
                 layered_expression = MathExpression()
+                self.parenth_exist = True
                 layered_expression.set_expression(self.expression[pop+1:i])
                 del self.expression[pop+1:i+1]
                 self.expression[pop] = layered_expression
@@ -70,15 +74,30 @@ class MathExpression:
     def set_expression(self, expression):
         self.expression = expression
 
+    def left_right_operator_check(self):
+        """checks if left/right operators in expression are valid"""
+        for i in range(len(self.expression)):
+            if isinstance(self.expression[i], op.RightOperator):
+                if i+1 < len(self.expression):
+                    if(self.expression[i+1] == '(' or type(self.expression[i+1]) == int):
+                        print("Invalid input, there cannot be a number after the operator")
+                        return False
+            elif isinstance(self.expression[i], op.LeftOperator):
+                if i != 0:
+                    if(self.expression[i-1] == ')' or type(self.expression[i-1]) == int):
+                        print("Invalid input, there cannot be a number after the operator")
+                        return False
+        return True
 
-    # def evaluate(self):
-    #     try:
-    #         for i in range(len(self.expression)):
-    #             pass
-    #         pass
-    #     except:
-    #         self.error = "Error"
-    #         pass
+    def evaluate(self):
+        if(self.parenth_exist):
+            for i in range(len(self.expression)):
+                if isinstance(self.expression[i], MathExpression):
+                    self.expression[i].evaluate()
+        else:
+            for i in range(len(self.expression)):
+                pass
+        pass
 
 
 # count = MathExpression()

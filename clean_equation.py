@@ -27,8 +27,16 @@ def clean_input(calc_string, valid_calc_string):
                 if(calc_string[count] == '-'):
                     toupleCheck = minus_clean(calc_string[count:])
                     if(toupleCheck[0] == '+'):
+                        if(calc_string[toupleCheck[1]+count].isdigit() and count != 0 and
+                         calc_string[count-1] != '(' and calc_string[count-1] != '+'): 
+                            valid_calc_string.append('+')
                         clean_input(calc_string[toupleCheck[1]+count:], valid_calc_string)
                         return
+                    if(count == 0 or calc_string[toupleCheck[1]+count].isdigit() or calc_string[count-1] == ')'):
+                        if(calc_string[toupleCheck[1]+count].isdigit()):
+                            valid_calc_string.append('-'+calc_string[toupleCheck[1]+count])
+                            clean_input(calc_string[toupleCheck[1]+count+1:], valid_calc_string)
+                            return
                     valid_calc_string.append(toupleCheck[0])
                     clean_input(calc_string[toupleCheck[1]+count:], valid_calc_string)
                     return
@@ -41,7 +49,9 @@ def clean_input(calc_string, valid_calc_string):
 
     print(valid_calc_string)
     mathh = MathExpression()
-    mathh.set_expression_from_string(listToString(valid_calc_string))
+    mathh.set_expression_from_string(valid_calc_string)
+    if(not mathh.left_right_operator_check()):
+        return
     mathh.parenthesis_checker()
     print()
 
@@ -62,20 +72,13 @@ def check_operation(string_operation_check, og_char, num_check_before_minus):
         if(char in op.operation_object.keys()):
             match char:
                 case '-':
-                    if(og_char == '-'):
-                        return False
-                    elif(num_check_before_minus):
-                        return True
+                    return og_char != '-' and num_check_before_minus
                 case '(':
-                    if(og_char == '('):
-                        return False
+                    return og_char != '('
                 case ')':
-                    if(og_char == ')'):
-                        return False
+                    return og_char != ')'
                 case _:
-                    if(og_char == ')'):
-                        return False
-                    return True
+                    return og_char != ')'
         else:
             return False
     pass

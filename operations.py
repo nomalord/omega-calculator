@@ -1,8 +1,4 @@
 from Operator import PairOperator, RightOperator, LeftOperator
-operator_dict = {'+':1, '-':1, '*':2, '/':2, '^':3, '%':4,
-                 '$':5, '&':5, '@':5, '~':6, '!':6, '#':6,}
-
-OPERATIONS = ['+', '-', '*', '/', '^', '%', '$', '&', '@', '~', '!','#', '(', ')']
 
 operation_object = {'+':PairOperator('+', 1),'-': PairOperator('-', 1),'*': PairOperator('*', 2),
                     '/':PairOperator('/', 2),'^': PairOperator('^', 3),'%': PairOperator('%', 4),
@@ -19,8 +15,10 @@ def multiply(num1, num2):
     return num1 * num2
 
 def divide(num1, num2):
-    return num1 / num2
-
+    try :
+        return num1 / num2
+    except ZeroDivisionError:
+        print("Cannot divide by zero.")
 def power(num1, num2):
     return num1 ** num2
 
@@ -47,10 +45,14 @@ def average(num1, num2):
 
 def factorial(num):
     """Returns the factorial of a number (!)."""
-    if(num == 0):
-        return 1
-    else:
-        return num * factorial(num - 1)
+    try:
+        if(num == 0):
+            return 1
+        else:
+            return num * factorial(num - 1)
+    except RecursionError:
+        print("Cannot take the factorial of a number that large.")
+    
 
 def negative(num):
     """Returns the negative value of a number (~)."""
@@ -63,18 +65,3 @@ def sum_digits(num):
         sum += num % 10
         num = num // 10
     return sum
-
-
-def minus_clean(expression):
-    """Removes the negative sign from the expression."""
-    lst = []
-    for i in range(len(expression)):
-        if(expression[i] == '-'):
-            if(i != 0):
-                if(expression[i-1].isdigit()):
-                    continue
-                else:
-                    expression[i] = '~'
-            else:
-                expression[i] = '~'
-    return expression
