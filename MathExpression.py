@@ -14,10 +14,10 @@ class MathExpression:
     def set_expression_from_string(self, input_list_str):
         """Sets the expression from a string"""
         count = 0
-        if(input_list_str[count].isdigit()):
+        if(input_list_str[count]).isdigit():
             str_num = input_list_str[count]
             if(count+1 != len(input_list_str)):
-                while(input_list_str[count+1].isdigit()):
+                while(input_list_str[count+1]).isdigit():
                         count += 1
                         str_num += input_list_str[count]
                         if(count+1 == len(input_list_str)):
@@ -75,27 +75,28 @@ class MathExpression:
     def set_expression(self, expression):
         self.expression = expression
 
-    def left_right_operator_check(self):
-        """checks if left/right operators in expression are valid"""
-        for i in range(len(self.expression)):
-            if isinstance(self.expression[i], op.RightOperator):
-                if i+1 < len(self.expression):
-                    if(self.expression[i+1] == '(' or type(self.expression[i+1]) == int):
-                        print("Invalid input, there cannot be a number after the operator")
-                        return False
-            elif isinstance(self.expression[i], op.LeftOperator):
-                if i != 0:
-                    if(self.expression[i-1] == ')' or type(self.expression[i-1]) == int):
-                        print("Invalid input, there cannot be a number before the operator")
-                        return False
-                    if(isinstance(self.expression[i-1], op.PairOperator)):
-                        if(i-2 < 0 or self.expression[i-2] == '('):
-                            self.expression[i-1] = '-'
-                            continue
-                        else:
-                            print("Invalid input, there cannot be a minus before a left operator")
-                            return False
-        return True
+    # def left_right_operator_check(self):
+    #     """checks if left/right operators in expression are valid"""
+    #     for i in range(len(self.expression)):
+    #         if isinstance(self.expression[i], op.RightOperator):
+    #             if i+1 < len(self.expression):
+    #                 if(self.expression[i+1] == '(' or type(self.expression[i+1]) == int):
+    #                     print("Invalid input, there cannot be a number after the operator")
+    #                     return False
+    #         elif isinstance(self.expression[i], op.LeftOperator):
+    #             if i != 0:
+    #                 if(self.expression[i-1] == ')' or type(self.expression[i-1]) == int):
+    #                     print("Invalid input, there cannot be a number before the operator")
+    #                     return False
+    #                 if(isinstance(self.expression[i-1], op.PairOperator)):
+    #                     if(i-2 < 0 or self.expression[i-2] == '('):
+    #                         self.expression[i-1] = '-'
+    #                         continue
+    #                     else:
+    #                         print("Invalid input, there cannot be a minus before a left operator")
+    #                         return False
+    
+    #     return True
 
     def sort_expression(self):
         """sorts the expression's operators by priority in a dictionary that stores index"""
