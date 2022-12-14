@@ -97,18 +97,6 @@ def minus_clean(string_minus_check):
     else:
         return '-', count
 
-def listToString(s):
- 
-    # initialize an empty string
-    str1 = ""
- 
-    # traverse in the string
-    for ele in s:
-        str1 += ele
- 
-    # return string
-    return str1
-
 def plus_removal(valid_calc_string):
     for item in range(len(valid_calc_string)-1):
         if(valid_calc_string[item] == '+'):
