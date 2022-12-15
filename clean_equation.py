@@ -1,6 +1,6 @@
-from Operator import Operator, LeftOperator, RightOperator, PairOperator
-from operations import operation_object
+from Operator import Operator, LeftOperator, RightOperator, PairOperator, object_dict
 from MathExpression import MathExpression
+from Calculator import Calculator
 
 def clean_input(calc_string, valid_calc_string):
     """check for invalid input with logic of operaions and parenthesis"""
@@ -14,11 +14,6 @@ def clean_input(calc_string, valid_calc_string):
                 print("or a closing parenthesis before a digit")
                 return
         elif(isinstance(calc_string[count], Operator)):
-
-            # num_check_before_minus = (calc_string[count].operator == '-' and 
-            # (count == 0 or calc_string[count-1].isdigit() or 
-            # calc_string[count-1] == ')' or 
-            # calc_string[count-1] == '('))
 
             if(check_operation(calc_string[count+1], calc_string[count])):
                 print("Invalid input, there cannot be two operations next to each other that are"+
@@ -36,7 +31,7 @@ def clean_input(calc_string, valid_calc_string):
                            count != 0 and
                            calc_string[count-1] != '(' and
                            calc_string[count-1] != '+'): 
-                            valid_calc_string.append(operation_object['+'])
+                            valid_calc_string.append(object_dict['+'])
                         return clean_input(calc_string[toupleCheck[1]+count:], valid_calc_string)
                     if(count == 0 or
                        type(calc_string[toupleCheck[1]+count]) == (int or float) or
@@ -44,7 +39,7 @@ def clean_input(calc_string, valid_calc_string):
                         if(type(calc_string[count - toupleCheck[1]]) != (int or float)):
                             valid_calc_string.append(calc_string[toupleCheck[1]+count]*-1)
                             return clean_input(calc_string[toupleCheck[1]+count+1:], valid_calc_string)  
-                    valid_calc_string.append(toupleCheck[0])
+                    valid_calc_string.append(object_dict[toupleCheck[0]])
                     return clean_input(calc_string[toupleCheck[1]+count:], valid_calc_string)
 
         elif(calc_string[count] == '(' or calc_string[count] == ')'):
@@ -52,17 +47,17 @@ def clean_input(calc_string, valid_calc_string):
         else:
             print("invalid input, only parenthesis, numbers and operations are allowed")
             return
-    if(calc_string[-1] == ')'):
+    if(calc_string[-1] == ')' or type(calc_string[-1]) == (int or float) or isinstance(calc_string[-1], RightOperator)):
         valid_calc_string.append(calc_string[-1])
 
     plus_removal(valid_calc_string)
     mathh = MathExpression()
     mathh.set_expression(valid_calc_string)
-    # if(not mathh.left_right_operator_check()):
-    #     return
     mathh.parenthesis_checker()
-    mathh.sort_expression()
+    # mathh.sort_expression()
     print(mathh.get_expression())
+    calculator = Calculator(mathh.get_expression())
+    calculator.evaluate(calculator.expression)
 
 
 def check_digit_parenth(digit_check, og_operator):
@@ -138,22 +133,3 @@ def plus_removal(valid_calc_string):
             if(valid_calc_string[item].operator == '+'):
                 if(isinstance(valid_calc_string[item+1], Operator)):
                     if(valid_calc_string[item+1].operator == '-'): del valid_calc_string[item]
-
-
-
-
-# def parenthesis_check(string_parenthesis_check):
-#     count = 0
-#     if(string_parenthesis_check == ""):
-#         return True
-#     for char_parenthesis in string_parenthesis_check:
-#         match char_parenthesis:
-#             case ' ':
-#                 pass
-#             case '\t':
-#                 pass
-#             case '(':
-#                 return parenthesis_check(string_parenthesis_check[count+1:])
-#             case ')':
-#                 return False
-#         count += 1

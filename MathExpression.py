@@ -1,11 +1,9 @@
-import operations as op
-from Operator import PairOperator, RightOperator, LeftOperator, Operator
+from Operator import PairOperator, RightOperator, LeftOperator, Operator, object_dict
 
 class MathExpression:
     def __init__(self):
         self.expression = []
         self.result = None # type: float
-        self.parenth_exist = False # type: bool
 
     def __str__(self) -> str:
         return "math"
@@ -30,10 +28,10 @@ class MathExpression:
                 case ')':
                     self.expression.append(')')
                 case _:
-                    if(input_list_str[count] not in op.operation_object.keys()):
+                    if(input_list_str[count] not in object_dict.keys()):
                         self.expression.append(input_list_str[count])
                     else:
-                        self.expression.append(op.operation_object[input_list_str[count]])
+                        self.expression.append(object_dict[input_list_str[count]])
         if(count+1 < len(input_list_str)):
             self.set_expression_from_string(input_list_str[count+1:])
 
@@ -62,7 +60,6 @@ class MathExpression:
             elif self.expression[i] == ")":
                 pop = stack.pop()
                 layered_expression = MathExpression()
-                self.parenth_exist = True
                 layered_expression.set_expression(self.expression[pop+1:i])
                 del self.expression[pop+1:i+1]
                 self.expression[pop] = layered_expression
@@ -74,63 +71,3 @@ class MathExpression:
 
     def set_expression(self, expression):
         self.expression = expression
-
-    # def left_right_operator_check(self):
-    #     """checks if left/right operators in expression are valid"""
-    #     for i in range(len(self.expression)):
-    #         if isinstance(self.expression[i], op.RightOperator):
-    #             if i+1 < len(self.expression):
-    #                 if(self.expression[i+1] == '(' or type(self.expression[i+1]) == int):
-    #                     print("Invalid input, there cannot be a number after the operator")
-    #                     return False
-    #         elif isinstance(self.expression[i], op.LeftOperator):
-    #             if i != 0:
-    #                 if(self.expression[i-1] == ')' or type(self.expression[i-1]) == int):
-    #                     print("Invalid input, there cannot be a number before the operator")
-    #                     return False
-    #                 if(isinstance(self.expression[i-1], op.PairOperator)):
-    #                     if(i-2 < 0 or self.expression[i-2] == '('):
-    #                         self.expression[i-1] = '-'
-    #                         continue
-    #                     else:
-    #                         print("Invalid input, there cannot be a minus before a left operator")
-    #                         return False
-    
-    #     return True
-
-    def sort_expression(self):
-        """sorts the expression's operators by priority in a dictionary that stores index"""
-        priority_dict = {}
-        for i in range(len(self.expression)):
-            if isinstance(self.expression[i], Operator):
-                if self.expression[i].priority not in priority_dict.keys():
-                    priority_dict[self.expression[i].priority] = [i]
-                else:
-                    priority_dict[self.expression[i].priority].append(i)
-        return priority_dict
-    
-    def evaluate(self):
-        if(self.parenth_exist):
-            for i in range(len(self.expression)):
-                if isinstance(self.expression[i], MathExpression):
-                    self.expression[i].evaluate()
-        else:
-            for i in range(len(self.expression)):
-                if(isinstance(self.expression[i], op.PairOperator)):
-                    pass
-                if(isinstance(self.expression[i], op.RightOperator)):
-                    pass
-                if(isinstance(self.expression[i], op.LeftOperator)):
-                    pass
-
-
-# count = MathExpression()
-# count.set_expression_from_string("(9+22-(3+5))(3+(5)-6)")
-# count.parenthesis_checker()
-# count.parenthesis_list_index()
-# print(count.expression)
-
-
-# list = [5,8,7,6,5,4]
-# del list[2:6]
-# print(list)
