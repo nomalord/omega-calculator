@@ -22,16 +22,20 @@ class MathExpression:
                             break
             self.expression.append(int(str_num))
         else:
-            match input_list_str[count]:
-                case '(':
-                    self.expression.append('(')
-                case ')':
-                    self.expression.append(')')
-                case _:
-                    if(input_list_str[count] not in object_dict.keys()):
-                        self.expression.append(input_list_str[count])
-                    else:
-                        self.expression.append(object_dict[input_list_str[count]])
+            if(input_list_str[count] not in object_dict.keys()):
+                self.expression.append(input_list_str[count])
+            else:
+                self.expression.append(object_dict[input_list_str[count]])
+            # match input_list_str[count]:
+            #     case '(':
+            #         self.expression.append('(')
+            #     case ')':
+            #         self.expression.append(')')
+            #     case _:
+            #         if(input_list_str[count] not in object_dict.keys()):
+            #             self.expression.append(input_list_str[count])
+            #         else:
+            #             self.expression.append(object_dict[input_list_str[count]])
         if(count+1 < len(input_list_str)):
             self.set_expression_from_string(input_list_str[count+1:])
 
