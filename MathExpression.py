@@ -10,7 +10,7 @@ class MathExpression:
 
 
     def set_expression_from_string(self, input_list_str):
-        """Sets the expression from a string"""
+        """This function takes a string and converts it into a list of numbers, parenthesis and operators"""
         count = 0
         if(input_list_str[count]).isdigit():
             str_num = input_list_str[count]
@@ -36,7 +36,7 @@ class MathExpression:
             self.set_expression_from_string(input_list_str[count+1:])
 
     def parenthesis_checker(self):
-        """Checks if there are an equal amount of left and right parenthesis"""
+        """Checks if the parenthesis are valid"""
         countleft, countright = 0, 0
         for i in range(len(self.expression)):
             if(self.expression[i] == '('):
@@ -52,7 +52,7 @@ class MathExpression:
         self.parenthesis_list_index()
 
     def parenthesis_list_index(self):
-        """Finds the index of the parenthesis and creates a new MathExpression object for the expression inside the parenthesis"""
+        """This function takes the list of numbers, parenthesis and operators and converts it into a list of numbers, parenthesis and operators, and a list of the indexes of the parenthesis"""
         stack = []
         for i in range(len(self.expression)):
             if self.expression[i] == "(":

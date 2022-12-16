@@ -1,22 +1,18 @@
-from clean_equation import clean_input
-from MathExpression import MathExpression
-import Operator as op
-
-def first_cleaning(calc_string, valid_calc_string):
-    """Removes spaces and tabs from the input string and checks for invalid characters"""
-
-    calc_string = calc_string.replace(" ", "")
-    calc_string = calc_string.replace("\t", "")
-    for count in range(len(calc_string)):
-        if(calc_string[count].isdigit()):
-            valid_calc_string.append(calc_string[count])
-        elif(calc_string[count] in op.object_dict.keys() or calc_string[count] == '(' or calc_string[count] == ')'):
-            valid_calc_string.append(calc_string[count])
-            
+def validation(num):
+    """This function validates the input of the user, if the input is valid, it will be sent to the first_cleaning function in the input.py file, if the input is invalid, the user will be asked to enter a valid input."""
+    import validation_input as inp
+    try:
+        print("please enter a calculation")
+        if(num == 1):
+            validated_string = input()
+            if validated_string == "" or validated_string.isspace():
+                print("Invalid input, please enter a calculation, the string cannot be empty or only contain spaces/tabs")
+                validation(1)
+            inp.first_cleaning(validated_string, [])
         else:
-            print("invalid input, only parenthesis, numbers and operations are allowed")
-            return
-    print(valid_calc_string)
-    mathh = MathExpression()
-    mathh.set_expression_from_string(valid_calc_string)
-    clean_input(mathh.get_expression(), [])
+            print("the program has ended")
+            exit(1)
+    except KeyboardInterrupt as e:
+        print(e)
+        validation(1)
+    pass

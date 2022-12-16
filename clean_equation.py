@@ -1,9 +1,10 @@
 from Operator import Operator, LeftOperator, RightOperator, PairOperator, object_dict
 from MathExpression import MathExpression
 from Calculator import Calculator
+import output as out
 
 def clean_input(calc_string, valid_calc_string):
-    """check for invalid input with logic of operaions and parenthesis"""
+    """This function takes the list of numbers, parenthesis and operators and checks for validity of operator placement, and it combines minus signs that are next to each other into one minus sign or plus sign, and it combines minus signs that are next to a number or a parenthesis into a negative number or a negative parenthesis"""
 
     for count in range(len(calc_string)-1):
         if(type(calc_string[count]) == (int or float)):
@@ -54,23 +55,25 @@ def clean_input(calc_string, valid_calc_string):
     mathh = MathExpression()
     mathh.set_expression(valid_calc_string)
     mathh.parenthesis_checker()
-    # mathh.sort_expression()
-    print(mathh.get_expression())
     calculator = Calculator(mathh.get_expression())
-    calculator.evaluate(calculator.expression)
+    mathh.result = calculator.evaluate(calculator.expression)
+    out.output(mathh.result)
 
 
 def check_digit_parenth(digit_check, og_operator):
-    """Checks if there is a parenthesis after a digit, returns false if there is"""
-    match digit_check:
-        case '(':
-            return False
-        case _:
-            return not isinstance(og_operator, LeftOperator)
+    """Checks if there is a digit after a parenthesis or a parenthesis before a digit, returns false if there is"""
+    if(digit_check == '('):
+        return False
+    return not isinstance(og_operator, LeftOperator)
+    # match digit_check:
+    #     case '(':
+    #         return False
+    #     case _:
+    #         return not isinstance(og_operator, LeftOperator)
 
 
 def check_operation(operation_check, og_operator):
-    """Checks if there are two operations back to back, unless they are not pair operations, returns false if they are not or if operator is -"""
+    """Checks if there is an operation after an operation, returns false if the operations are logically correct"""
     if(isinstance(operation_check, Operator)):
         check_operator_type(operation_check, og_operator)
 
@@ -88,6 +91,7 @@ def check_operation(operation_check, og_operator):
     pass
 
 def check_operator_type(operation_check, og_operator):
+    """Checks if the operation is a minus, and if it is, it checks if it is logically correct"""
     if(isinstance(operation_check, PairOperator)):
         if(operation_check.operator == '-'):
             if(isinstance(og_operator, RightOperator)):
@@ -112,7 +116,7 @@ def check_operator_type(operation_check, og_operator):
         return False
 
 def minus_clean(string_minus_check):
-    """checks if there are multiple minuses in a row, and combines them into one"""
+    """Checks if there are an even or odd amount of minuses in a row, returns the correct operator and the amount of minuses"""
     count = 0
     for obj in string_minus_check:
         if(isinstance(obj, Operator)):
@@ -128,6 +132,7 @@ def minus_clean(string_minus_check):
         return '-', count
 
 def plus_removal(valid_calc_string):
+    """Removes all plus signs from the string which are not operators, as they are redundant"""
     for item in range(len(valid_calc_string)-1):
         if(isinstance(valid_calc_string[item], Operator)):
             if(valid_calc_string[item].operator == '+'):

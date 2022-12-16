@@ -55,8 +55,16 @@ def divide(num1, num2):
     try :
         return num1 / num2
     except ZeroDivisionError:
-        print("Cannot divide by zero.")
+        raise ZeroDivisionError("Cannot divide by zero.")
 def power(num1, num2):
+    if(num1 == 0 and num2 < 0):
+        raise ZeroDivisionError("Cannot divide by zero.")
+    elif(num1 < 0 and num2 % 1 != 0):
+        raise ValueError("Cannot raise a negative number to a non-integer power.")
+    elif(num1**num2 == float('inf')):
+        raise OverflowError("Cannot raise a number to a power that large.")
+    elif(num1**num2 is complex):
+        raise ValueError("complex solutions are not accepted.")
     return num1 ** num2
 
 def modulus(num1, num2):
@@ -83,8 +91,7 @@ def average(num1, num2):
 def factorial(num):
     """Returns the factorial of a number (!)."""
     if(num < 0):
-        print("Cannot take the factorial of a negative number.")
-        return
+        raise ValueError("Cannot take the factorial of a negative number.")
     if(num == 0):
             return 1
     else:
@@ -97,8 +104,6 @@ def factorial_wrapper(num):
         raise RecursionError("Cannot take the factorial of a number that large.")
     except TypeError:
         raise TypeError("Cannot take the factorial of a number that large.")
-    finally:
-        print("done")
 
 
 
