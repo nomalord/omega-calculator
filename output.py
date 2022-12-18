@@ -7,10 +7,16 @@ def output(result):
         first_number_after_point = float_str[decimal_index + 1]
         if(len(float_str) > decimal_index + 2):
             second_number_after_point = float_str[decimal_index + 2]
+
         else:
             second_number_after_point = '0'
-        if(first_number_after_point == '0' and second_number_after_point == '0'):
-            print("the result is " + str(int(result)))
+
+        if((first_number_after_point == '0' and
+           second_number_after_point == '0')
+            or
+           (first_number_after_point == '9' and
+           second_number_after_point == '9')):
+            print("the result is " + str(round(result)))
         else:
             print("the result is " + str(result))
     else:

@@ -91,6 +91,8 @@ def factorial(num):
     """Returns the factorial of a number (!)."""
     if(num < 0):
         raise ValueError("Cannot take the factorial of a negative number.")
+    if(type(num) is not int):
+        raise TypeError("Cannot take the factorial of a non-integer.")
     if(num == 0):
             return 1
     else:
@@ -112,6 +114,7 @@ def negative(num):
 
 def sum_digits(num):
     """returns the sum of a the digits of a number (#)."""
+    flag = False
     if(num < 0):
         num *= -1
         flag = True
