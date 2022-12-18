@@ -66,21 +66,21 @@ def power(num1, num2):
         raise ValueError("complex solutions are not accepted.")
     return num1 ** num2
 
-def power_wrapper(num1, num2):
+def power_wrapper(num1, num2, test_check = False):
     try:
         return power(num1, num2)
     except OverflowError as e:
         print(e)
         from start import main
-        main()
+        main(test = test_check)
     except ValueError as e:
         print(e)
         from start import main
-        main()
+        main(test = test_check)
     except ZeroDivisionError as e:
         print(e)
         from start import main
-        main()
+        main(test = test_check)
 
 def modulus(num1, num2):
     return num1 % num2
@@ -116,21 +116,21 @@ def factorial(num):
     else:
         return num * factorial(num - 1)
 
-def factorial_wrapper(num):
+def factorial_wrapper(num, test_check = False):
     try:
         return factorial(num)
     except RecursionError as e:
         print(e)
         from start import main
-        main()
+        main(test = test_check)
     except TypeError as e:
         print(e)
         from start import main
-        main()
+        main(test = test_check)
     except ValueError as e:
         print(e)
         from start import main
-        main()
+        main(test = test_check)
 
 
 def negative(num):

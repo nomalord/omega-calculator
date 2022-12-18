@@ -1,6 +1,6 @@
 import Operator as op
 
-def first_cleaning(calc_string, valid_calc_string):
+def first_cleaning(calc_string, valid_calc_string, test_check = False):
     """This function cleans the input of the user, it removes all spaces and tabs, and checks if the input is valid, if it is, it will be sent to the clean_input function in the clean_equation.py file, if the input is invalid, the user will be asked to enter a valid input."""
     from Exceptions import InputError
     try:
@@ -22,4 +22,4 @@ def first_cleaning(calc_string, valid_calc_string):
     except InputError as e:
         print(e)
         from start import main
-        main()
+        main(test = test_check)

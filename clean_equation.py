@@ -1,7 +1,7 @@
 from Operator import Operator, LeftOperator, RightOperator, PairOperator, object_dict
 import output as out
 
-def clean_input(calc_string, valid_calc_string):
+def clean_input(calc_string, valid_calc_string = []):
     """This function takes the list of numbers, parenthesis and operators and checks for validity of operator placement, and it combines minus signs that are next to each other into one minus sign or plus sign, and it combines minus signs that are next to a number or a parenthesis into a negative number or a negative parenthesis"""
 
     for count in range(len(calc_string)-1):
@@ -211,12 +211,12 @@ def plus_removal(valid_calc_string):
     return valid_calc_string
 
 
-def wrap_try(calc_string, valid_calc_string):
+def wrap_try(calc_string, valid_calc_string = [], test_check = False):
     from Exceptions import OperatorError
     try:
-        return clean_input(calc_string, valid_calc_string)
+        return clean_input(calc_string)
 
     except OperatorError as oe:
         print(oe)
         from start import main
-        main()
+        main(test = test_check)

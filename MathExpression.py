@@ -10,7 +10,7 @@ class MathExpression:
         return "math"
 
 
-    def set_expression_from_string(self, input_list_str):
+    def set_expression_from_string(self, input_list_str, test_check = False):
         """This function takes a string and converts it into a list of numbers, parenthesis and operators"""
         try:
             count = 0
@@ -59,9 +59,9 @@ class MathExpression:
         except ValueError as e:
             print(e)
             from start import main
-            main()
+            main(test = test_check)
             
-    def parenthesis_checker(self):
+    def parenthesis_checker(self, test_check = False):
         """Checks if the parenthesis are valid"""
         try:
             countleft, countright = 0, 0
@@ -82,7 +82,7 @@ class MathExpression:
         except ParenthesisError as e:
             print(e)
             from start import main
-            main()
+            main(test = test_check)
 
     def parenthesis_list_index(self):
         """This function takes the list of numbers, parenthesis and operators and converts it into a list of numbers, parenthesis and operators, and a list of the indexes of the parenthesis"""

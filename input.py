@@ -1,4 +1,4 @@
-def validation(num, validated_string = None):
+def validation(num, validated_string = None, test_check = False):
     """This function validates the input of the user, if the input is valid, it will be sent to the first_cleaning function in the input.py file, if the input is invalid, the user will be asked to enter a valid input."""
     from Exceptions import InputError
     try:
@@ -19,13 +19,13 @@ def validation(num, validated_string = None):
     except KeyboardInterrupt as e:
         print("invalid input, only parenthesis, numbers and operations are allowed")
         from start import main
-        main()
+        main(test = test_check)
     except EOFError as e:
         print("invalid input, only parenthesis, numbers and operations are allowed")
         from start import main
-        main()
+        main(test = test_check)
     except InputError as e:
         print(e)
         from start import main
-        main()
+        main(test = test_check)
     pass

@@ -4,35 +4,35 @@ from Exceptions import OperatorError, InputError, ParenthesisError
 
 def syntax_test1():
     with pytest.raises(OperatorError):
-        main("27~&")
-
+        main("27~&", test = True)
+        
 def syntax_test2():
     with pytest.raises(ParenthesisError):
-        main("(27+3))")
+        main("(27+3))", test = True)
 
 def syntax_test3():
     with pytest.raises(OperatorError):
-        main("27+3+")
+        main("27+3+", test = True)
 
 def syntax_test4():
     with pytest.raises(OperatorError):
-        main("@9~+3+^@")
+        main("@9~+3+^@", test = True)
 
 def syntax_test5():
     with pytest.raises((OperatorError, ParenthesisError)):
-        main("(2764737+3+^@(")
+        main("(2764737+3+^@(", test = True)
 
 def gibberish_test():
     with pytest.raises(InputError):
-        main("this is gibberish jq3tq3ljtjgb ^C")
+        main("this is gibberish jq3tq3ljtjgb ^C", test = True)
 
 def empty_string_test():
     with pytest.raises(InputError):
-        main("")
+        main("", test = True)
 
 def whitespace_test():
     with pytest.raises(InputError):
-        main("       \t\t  \t \t")
+        main("       \t\t  \t \t", test = True)
 
 def simple_calculation_test1():
     assert main("27+3") == 30
