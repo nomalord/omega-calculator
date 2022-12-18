@@ -4,6 +4,7 @@ class MathExpression:
     def __init__(self):
         self.expression = []
         self.result = None # type: float
+        self.negative = False
 
     def __str__(self) -> str:
         return "math"
@@ -15,12 +16,28 @@ class MathExpression:
         if(input_list_str[count]).isdigit():
             str_num = input_list_str[count]
             if(count+1 != len(input_list_str)):
-                while(input_list_str[count+1]).isdigit():
+                while (input_list_str[count+1]).isdigit() or input_list_str[count+1] == '.':
                         count += 1
                         str_num += input_list_str[count]
                         if(count+1 == len(input_list_str)):
                             break
-            self.expression.append(int(str_num))
+                        if(input_list_str[count+1] == '.' and '.' in str_num):
+                            raise ValueError("invalid input, two dots in a number")
+            if str_num.isdigit():
+                self.expression.append(int(str_num))
+            else:
+                self.expression.append(float(str_num))
+        elif input_list_str[count] == '.':
+            str_num = input_list_str[count]
+            if(count+1 != len(input_list_str)):
+                while (input_list_str[count+1]).isdigit():
+                        count += 1
+                        str_num += input_list_str[count]
+                        if(count+1 == len(input_list_str)):
+                            break
+                        if(input_list_str[count+1] == '.' and '.' in str_num):
+                            raise ValueError("invalid input, two dots in a number")
+            self.expression.append(float(str_num))
         else:
             if(input_list_str[count] not in object_dict.keys()):
                 self.expression.append(input_list_str[count])
@@ -43,7 +60,7 @@ class MathExpression:
         """Checks if the parenthesis are valid"""
         countleft, countright = 0, 0
         for i in range(len(self.expression)):
-            if(self.expression[i] == '('):
+            if(self.expression[i] == '(' or self.expression[i] == '{'):
                 countleft += 1
             elif(self.expression[i] == ')'):
                 if(self.expression[i-1] == '('):
@@ -62,9 +79,18 @@ class MathExpression:
         for i in range(len(self.expression)):
             if self.expression[i] == "(":
                 stack.append(i)
+            elif self.expression[i] == "{":
+                stack.append((i, "{"))
             elif self.expression[i] == ")":
                 pop = stack.pop()
                 layered_expression = MathExpression()
+                if isinstance(pop, tuple):
+                    layered_expression.set_expression(self.expression[pop[0]+1:i])
+                    del self.expression[pop[0]+1:i+1]
+                    layered_expression.negative = True
+                    self.expression[pop[0]] = layered_expression
+                    self.parenthesis_list_index()
+                    return
                 layered_expression.set_expression(self.expression[pop+1:i])
                 del self.expression[pop+1:i+1]
                 self.expression[pop] = layered_expression

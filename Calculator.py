@@ -17,14 +17,15 @@ class Calculator:
                         priority_dict[expression[i].priority].append((i, type(expression[i])))
             return priority_dict
 
-    def evaluate(self, expression):
+    def evaluate(self, expression, negative=False):
             """enters the mathexpression and evaluates it, if there are parenthesis it will call itself again with the expression inside the parenthesis"""
             if(any(isinstance(iterator, MathExpression) for iterator in expression)):
                 for i in range(len(expression)):
                     if isinstance(expression[i], MathExpression):
-                        expression[i] = self.evaluate(expression[i].get_expression())
+                        expression[i] = self.evaluate(expression[i].get_expression(), expression[i].negative)
+
             priority_dict = self.sort_expression(expression)
-            expression = self.calculate(priority_dict, expression)
+            expression = self.calculate(priority_dict, expression, negative)
             return expression
             #     else:
             #         for i in range(len(expression)):
@@ -42,7 +43,7 @@ class Calculator:
                 #     if(isinstance(expression[i], LeftOperator)):
                 #         pass
 
-    def calculate(self, priority_dict, expression):
+    def calculate(self, priority_dict, expression, negative=False):
         """calculates the expression by priority"""
         priority_dict = dict(sorted(priority_dict.items(), reverse=True))
         # for i in expression:
@@ -79,4 +80,6 @@ class Calculator:
                 #     else:
                 #         print(i, end=" ")
                 # print()
+        if negative:
+            expression[0] = -expression[0]
         return expression[0]

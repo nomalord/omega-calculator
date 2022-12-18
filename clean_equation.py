@@ -7,7 +7,8 @@ def clean_input(calc_string, valid_calc_string):
     """This function takes the list of numbers, parenthesis and operators and checks for validity of operator placement, and it combines minus signs that are next to each other into one minus sign or plus sign, and it combines minus signs that are next to a number or a parenthesis into a negative number or a negative parenthesis"""
 
     for count in range(len(calc_string)-1):
-        if(type(calc_string[count]) == (int or float)):
+        if(type(calc_string[count]) == int or
+           type(calc_string[count]) == float):
             if(check_digit_parenth(calc_string[count+1], calc_string[count])):
                 valid_calc_string.append(calc_string[count])
             else:
@@ -31,27 +32,44 @@ def clean_input(calc_string, valid_calc_string):
                 else:
                     toupleCheck = minus_clean(calc_string[count:])
                     if(toupleCheck[0] == '+'):
-                        if(type((calc_string[toupleCheck[1]+count]) == (int or float) or
-                           isinstance(calc_string[toupleCheck[1]+count],LeftOperator)) and
+                        if(type(calc_string[toupleCheck[1]+count]) == int or
+                           type(calc_string[toupleCheck[1]+count]) == float or
+                           isinstance(calc_string[toupleCheck[1]+count],LeftOperator) and
                            count != 0 and
                            calc_string[count-1] != '(' and
                            calc_string[count-1] != '+'): 
                             valid_calc_string.append(object_dict['+'])
                         return clean_input(calc_string[toupleCheck[1]+count:], valid_calc_string)
-                    if(count == 0 or
-                       type(calc_string[toupleCheck[1]+count]) == (int or float) or
-                       calc_string[count-1] == ')'):
-                        if(type(calc_string[count - toupleCheck[1]]) != (int or float)):
+                    if(count == 0):
+                        if calc_string[toupleCheck[1]+count] == '(':
+                            valid_calc_string.append('{')
+                            return clean_input(calc_string[toupleCheck[1]+count+1:], valid_calc_string)
+                        valid_calc_string.append(calc_string[toupleCheck[1]+count]*-1)
+                        return clean_input(calc_string[toupleCheck[1]+count+1:], valid_calc_string) 
+
+                    elif(type(calc_string[toupleCheck[1]+count]) == int or
+                         type(calc_string[toupleCheck[1]+count]) == float or
+                         calc_string[count-1] == ')'):
+                        if(type(calc_string[count - toupleCheck[1]]) != int or
+                           type(calc_string[count - toupleCheck[1]]) != float):
+                            if calc_string[toupleCheck[1]+count] == '(':
+                                valid_calc_string.append('{')
+                                return clean_input(calc_string[toupleCheck[1]+count+1:], valid_calc_string)
                             valid_calc_string.append(calc_string[toupleCheck[1]+count]*-1)
                             return clean_input(calc_string[toupleCheck[1]+count+1:], valid_calc_string)  
+
                     valid_calc_string.append(object_dict[toupleCheck[0]])
                     return clean_input(calc_string[toupleCheck[1]+count:], valid_calc_string)
 
         elif(calc_string[count] == '(' or calc_string[count] == ')'):
             valid_calc_string.append(calc_string[count])
             
-    if(calc_string[-1] == ')' or type(calc_string[-1]) == (int or float) or isinstance(calc_string[-1], RightOperator)):
-        valid_calc_string.append(calc_string[-1])
+    if(len(calc_string) != 0):
+        if(calc_string[-1] == ')' or
+        type(calc_string[-1]) == int or 
+        type(calc_string[-1]) == float or
+        isinstance(calc_string[-1], RightOperator)):
+            valid_calc_string.append(calc_string[-1])
 
     plus_removal(valid_calc_string)
     return valid_calc_string
@@ -81,8 +99,9 @@ def check_operation(operation_check, og_operator):
     if(isinstance(operation_check, Operator)):
         return check_operator_type(operation_check, og_operator)
 
-    elif(type(operation_check) == (int or float) and not
-    isinstance(og_operator, RightOperator)):
+    elif(type(operation_check) == int or
+         type(operation_check) == float and not
+         isinstance(og_operator, RightOperator)):
         return False
     else:
         if(operation_check == ')'):
@@ -106,17 +125,18 @@ def check_operator_type(operation_check, og_operator):
         return False
 
     elif(isinstance(operation_check, RightOperator)):
-        if(og_operator != ')' or not
-            type(og_operator) == (int or float) or not
-            isinstance(og_operator, RightOperator)):
-            return True
+        if(og_operator != ')'):
+            if(isinstance(og_operator, PairOperator) or
+               isinstance(og_operator, LeftOperator)):
+                return True
         return False
 
     elif(isinstance(operation_check, LeftOperator)):
-        if(og_operator != '(' or not
-            type(og_operator) == (int or float) or not
-            og_operator.operator == '~'):
-            return True
+        if(og_operator != '(' or
+           type(og_operator) != int or
+           type(og_operator) != float):
+            if(isinstance(og_operator, LeftOperator)): 
+                if(og_operator.operator == '~'): return True
         return False
 
 def minus_clean(string_minus_check):

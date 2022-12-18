@@ -54,6 +54,7 @@ def divide(num1, num2):
         return num1 / num2
     except ZeroDivisionError:
         raise ZeroDivisionError("Cannot divide by zero.")
+
 def power(num1, num2):
     if(num1 == 0 and num2 < 0):
         raise ZeroDivisionError("Cannot divide by zero.")

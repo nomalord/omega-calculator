@@ -5,7 +5,10 @@ def output(result):
         float_str = str(result)
         decimal_index = float_str.index('.')
         first_number_after_point = float_str[decimal_index + 1]
-        second_number_after_point = float_str[decimal_index + 2]
+        if(len(float_str) > decimal_index + 2):
+            second_number_after_point = float_str[decimal_index + 2]
+        else:
+            second_number_after_point = '0'
         if(first_number_after_point == '0' and second_number_after_point == '0'):
             print("the result is " + str(int(result)))
         else:

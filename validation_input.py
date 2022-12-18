@@ -6,7 +6,7 @@ def first_cleaning(calc_string, valid_calc_string):
     calc_string = calc_string.replace(" ", "")
     calc_string = calc_string.replace("\t", "")
     for count in range(len(calc_string)):
-        if(calc_string[count].isdigit()):
+        if(calc_string[count].isdigit() or calc_string[count] == '.'):
             valid_calc_string.append(calc_string[count])
         elif(calc_string[count] in op.object_dict.keys() or calc_string[count] == '(' or calc_string[count] == ')'):
             valid_calc_string.append(calc_string[count])
