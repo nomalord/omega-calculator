@@ -66,6 +66,22 @@ def power(num1, num2):
         raise ValueError("complex solutions are not accepted.")
     return num1 ** num2
 
+def power_wrapper(num1, num2):
+    try:
+        return power(num1, num2)
+    except OverflowError as e:
+        print(e)
+        from start import main
+        main()
+    except ValueError as e:
+        print(e)
+        from start import main
+        main()
+    except ZeroDivisionError as e:
+        print(e)
+        from start import main
+        main()
+
 def modulus(num1, num2):
     return num1 % num2
 
@@ -91,8 +107,10 @@ def factorial(num):
     """Returns the factorial of a number (!)."""
     if(num < 0):
         raise ValueError("Cannot take the factorial of a negative number.")
-    if(type(num) is not int):
-        raise TypeError("Cannot take the factorial of a non-integer.")
+    if(type(num) == float):
+        float_str = str(num)
+        if(float_str.split('.')[1] != '0' and len(float_str[1]) > 1):
+            raise TypeError("Cannot take the factorial of a non-integer.")
     if(num == 0):
             return 1
     else:
@@ -101,11 +119,18 @@ def factorial(num):
 def factorial_wrapper(num):
     try:
         return factorial(num)
-    except RecursionError:
-        raise RecursionError("Cannot take the factorial of a number that large.")
-    except TypeError:
-        raise TypeError("Cannot take the factorial of a number that large.")
-
+    except RecursionError as e:
+        print(e)
+        from start import main
+        main()
+    except TypeError as e:
+        print(e)
+        from start import main
+        main()
+    except ValueError as e:
+        print(e)
+        from start import main
+        main()
 
 
 def negative(num):
@@ -119,7 +144,7 @@ def sum_digits(num):
         num *= -1
         flag = True
     sum = 0
-    while(num > 0):
+    while(num >= 1):
         sum += num % 10
         num = num // 10
     if(flag):
@@ -127,5 +152,5 @@ def sum_digits(num):
     return sum
 
 
-function_dict = {'+':add,'-':subtract,'*':multiply,'/':divide,'^':power,'%':modulus,'$':maximum,
+function_dict = {'+':add,'-':subtract,'*':multiply,'/':divide,'^':power_wrapper,'%':modulus,'$':maximum,
                  '&':minimum,'@':average,'~':negative,'!':factorial_wrapper,'#':sum_digits}

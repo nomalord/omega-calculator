@@ -79,32 +79,79 @@ def simple_calculation_test14():
 def simple_calculation_test15():
     assert main("80@2&50%10 + -~-928#") == -18
 
-simple_test_list = [simple_calculation_test1, simple_calculation_test2, simple_calculation_test3, simple_calculation_test4,
-                    simple_calculation_test5, simple_calculation_test6, simple_calculation_test7,
-                    simple_calculation_test8, simple_calculation_test9, simple_calculation_test10,
-                    simple_calculation_test11, simple_calculation_test12, simple_calculation_test13,
-                    simple_calculation_test14, simple_calculation_test15]
-
-for test in simple_test_list:
-    test()
-
 #complex tests require a minimum of 20 characters, must include spaces, parenthesis, numbers, and operations
 #the operations are: +, -, *, /, %, ^, ~, @, &, #, $, ~ as specified in the Operator.py file
 #write me 20 tests for complex calculations
 
-def complex_calculation_test1():
-    pass
+# Valid complex equations
+def test_complex_equation_1():
+    assert main("(3*(5-2)!)/((2!)/((-9^2)!)+10)") == 1.8
 
+def test_complex_equation_2():
+    assert main("((5&9)^(5^2$-4)- 3!)*-(-2@8!#!)") == -5.407303571701049e+22
 
-# + : addition, priority 1, takes 2 arguments
-# - : subtraction , priority 1 , takes 2 arguments
-# * : multiplication , priority 2 , takes 2 arguments
-# / : division , priority 2 , takes 2 arguments
-# ^ : exponentiation , priority 3 , takes 2 arguments
-# % : modulo , priority 4 , takes 2 arguments
-# @ : average , priority 5 , takes 2 arguments
-# $ : maximum , priority 5 , takes 2 arguments
-# & : minimum , priority 5 , takes 2 arguments
-# ! : factorial , priority 6 , takes 1 argument, right from the number
-# ~ : negative, priority 6 , takes 1 argument, left from the number
-# # : sum , priority 6 , takes 1 argument, left from the number
+def test_complex_equation_3():
+    assert main("5!#^ 2 -(2^(-(2^2)@(2^3)))!") == -15.0
+
+def test_complex_equation_4():
+    assert main("((22/2)^3)#! - ~---120#!") == 40314.0
+
+def test_complex_equation_5():
+    assert main("(10*(5@15))%((25%4)^(2^2))") == 0.0
+
+def test_complex_equation_6():
+    assert main("((7!/6!)^2+5)- (40@((4*5)$69))") == -0.5
+
+def test_complex_equation_7():
+    assert main("(39%(4!/4)+2)^(~---2! + 2^3 - (4^2)/2)") == 25.0
+
+def test_complex_equation_8():
+    assert main("((7 *(8^2))/2)@(5*(((3^2)*2)/6))") == 119.5
+
+def test_complex_equation_9():
+    assert main("((7*8+2)#^-(-2&5)*2)*(5*2-4!#)") == 1352
+
+def test_complex_equation_10():
+    assert main("((2*2*2)*3!)-(((20^2)/2)/20)*6") == -12.0
+
+def test_complex_equation_11():
+    assert main("(4!/2^3)^2+2^((20+6@(2^3))/3^2)") == 17.0
+
+def test_complex_equation_12():
+    assert main("(6*3+1@(6^2/(2^2*3)))/(6!#-(8*5+1)#)") == 5.0
+
+def test_complex_equation_13():
+    assert main("(11^2)%((10+1!#)*((5*2^1)&(5*2^2)))") == 11
+
+def test_complex_equation_14():
+    assert main("42%(6!#-(2^2*2^3+10)%(2^3+5&12))") == 0
+
+def test_complex_equation_15():
+    assert main("-(2^3)*(5!#+3)+((5^2*2^2)/10+~---4)") == -34.0
+
+def test_complex_equation_16():
+    assert main("-((5+5+150%(40*3))*2@3)-(7*2^(11%(2^1*2^2)))") == -156.0
+
+def test_complex_equation_17():
+    assert main("-((10$4*3)*2^2+(25%(3*5)))+(20-(2^2)@(2*3))") == -115.0
+
+def test_complex_equation_18():
+    assert main("(30$14)*120#+2^(2&10)-(0.5+1/(16%((5!+1)/11)))") == 93.3
+
+def test_complex_equation_19():
+    assert main("50*(0.04*10^2)+3-2^(~--5@(10+(10*10)#))") == 195.0
+
+def test_complex_equation_20():
+    assert main("((10+10+10+3^2)/5!#)^2-(0.5*(2^-(-2&2)))") == 167.0
+
+complex_test_list = [test_complex_equation_1, test_complex_equation_2, test_complex_equation_3, test_complex_equation_4,
+                        test_complex_equation_5, test_complex_equation_6, test_complex_equation_7, test_complex_equation_8,
+                        test_complex_equation_9, test_complex_equation_10, test_complex_equation_11, test_complex_equation_12,
+                        test_complex_equation_13, test_complex_equation_14, test_complex_equation_15, test_complex_equation_16,
+                        test_complex_equation_17, test_complex_equation_18, test_complex_equation_19, test_complex_equation_20]
+
+i= 0
+for test in complex_test_list:
+    i += 1
+    print(str(i) + " passed")
+    test()

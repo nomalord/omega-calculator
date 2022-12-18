@@ -58,18 +58,23 @@ def clean_input(calc_string, valid_calc_string):
                         valid_calc_string.append(calc_string[toupleCheck[1]+count]*-1)
                         return clean_input(calc_string[toupleCheck[1]+count+1:], valid_calc_string)
 
-                    elif(type(calc_string[toupleCheck[1]+count]) == int or
+                    elif((type(calc_string[toupleCheck[1]+count]) == int or
                          type(calc_string[toupleCheck[1]+count]) == float or
-                         isinstance(calc_string[toupleCheck[1]+count], LeftOperator)):
+                         isinstance(calc_string[toupleCheck[1]+count], LeftOperator))):
 
-                            if((calc_string[count-1] == ')' or
+                            if(isinstance(calc_string[count-1], PairOperator)):
+                                valid_calc_string.append(calc_string[toupleCheck[1]+count]*-1)
+                                return clean_input(calc_string[toupleCheck[1]+count+1:], valid_calc_string)
+
+                            elif((calc_string[count-1] == ')' or
                                type(calc_string[count-1]) == int or
-                               type(calc_string[count-1]) == float) and not
+                               type(calc_string[count-1]) == float or
+                               isinstance(calc_string[count-1], RightOperator)) and not
                                isinstance(calc_string[count-1], LeftOperator)):
-                                valid_calc_string.append(object_dict[toupleCheck[0]])
-                                return clean_input(calc_string[toupleCheck[1]+count:], valid_calc_string)
+                                    valid_calc_string.append(object_dict[toupleCheck[0]])
+                                    return clean_input(calc_string[toupleCheck[1]+count:], valid_calc_string)
 
-                            elif isinstance(calc_string[toupleCheck[1]+count], LeftOperator):
+                            if isinstance(calc_string[toupleCheck[1]+count], LeftOperator):
                                 if(calc_string[toupleCheck[1]+count].operator == '~'):
                                     tilda_count = 0
                                     for num_find in calc_string[toupleCheck[1]+count:]:
@@ -85,8 +90,16 @@ def clean_input(calc_string, valid_calc_string):
                             return clean_input(calc_string[toupleCheck[1]+count+1:], valid_calc_string) 
 
                     elif calc_string[toupleCheck[1]+count] == '(':
-                                    valid_calc_string.append('{')
-                                    return clean_input(calc_string[toupleCheck[1]+count+1:], valid_calc_string)
+                        if((calc_string[count-1] == ')' or
+                            type(calc_string[count-1]) == int or
+                            type(calc_string[count-1]) == float or
+                            isinstance(calc_string[count-1], RightOperator)) and not
+                            isinstance(calc_string[count-1], LeftOperator)):
+                            valid_calc_string.append(object_dict[toupleCheck[0]])
+                            return clean_input(calc_string[toupleCheck[1]+count:], valid_calc_string)
+
+                        valid_calc_string.append('{')
+                        return clean_input(calc_string[toupleCheck[1]+count+1:], valid_calc_string)
 
         elif(calc_string[count] == '(' or calc_string[count] == ')'):
             valid_calc_string.append(calc_string[count])
@@ -101,8 +114,8 @@ def clean_input(calc_string, valid_calc_string):
             from Exceptions import OperatorError
             raise OperatorError("Invalid input, there cannot be a pair Operator at the end of the input or an opening parenthesis")
 
-    plus_removal(valid_calc_string)
-    return valid_calc_string
+    return plus_removal(valid_calc_string)
+
     # math_expression = MathExpression()
     # math_expression.set_expression(valid_calc_string)
     # math_expression.parenthesis_checker()
@@ -191,6 +204,11 @@ def plus_removal(valid_calc_string):
             if(valid_calc_string[item].operator == '+'):
                 if(isinstance(valid_calc_string[item+1], Operator)):
                     if(valid_calc_string[item+1].operator == '-'): del valid_calc_string[item]
+                elif(item > 0):
+                    if(isinstance(valid_calc_string[item-1], LeftOperator) or
+                       valid_calc_string[item-1] == '('): del valid_calc_string[item]
+
+    return valid_calc_string
 
 
 def wrap_try(calc_string, valid_calc_string):
