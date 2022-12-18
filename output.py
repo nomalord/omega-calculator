@@ -1,6 +1,5 @@
 def output(result):
     """Prints the result of the calculation"""
-    from input import validation
     print("--------------------")
     if(type(result) == float):
         float_str = str(result)
@@ -21,7 +20,8 @@ def output(result):
         try:
             answer = input()
             if(answer == "y" or answer == "yes"):
-                validation(1)
+                from start import main
+                main()
             elif(answer == "n" or answer == "no"):
                 print("the program has ended")
                 exit(1)

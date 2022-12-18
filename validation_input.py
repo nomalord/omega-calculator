@@ -1,6 +1,3 @@
-
-from clean_equation import clean_input
-from MathExpression import MathExpression
 import Operator as op
 
 def first_cleaning(calc_string, valid_calc_string):
@@ -15,10 +12,9 @@ def first_cleaning(calc_string, valid_calc_string):
             valid_calc_string.append(calc_string[count])
             
         else:
-            print("invalid input, only parenthesis, numbers and operations are allowed")
-            from input import validation
-            validation(1)
+            from Exceptions import InputError
+            raise InputError("invalid input, only parenthesis, numbers and operations are allowed")
 
-    mathh = MathExpression()
-    mathh.set_expression_from_string(valid_calc_string)
-    clean_input(mathh.get_expression(), [])
+    # math_expression = MathExpression()
+    # math_expression.set_expression_from_string(valid_calc_string)
+    return valid_calc_string

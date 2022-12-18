@@ -35,8 +35,6 @@ class LeftOperator(Operator):
         return function_dict[self.operator](self.left)
 
 
-
-
 object_dict = {'+':PairOperator('+', 1),'-': PairOperator('-', 1),'*': PairOperator('*', 2),
                     '/':PairOperator('/', 2),'^': PairOperator('^', 3),'%': PairOperator('%', 4),
                     '$':PairOperator('$', 5),'&': PairOperator('&', 5),'@': PairOperator('@', 5),

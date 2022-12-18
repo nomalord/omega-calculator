@@ -11,15 +11,19 @@ def clean_input(calc_string, valid_calc_string):
             if(check_digit_parenth(calc_string[count+1], calc_string[count])):
                 valid_calc_string.append(calc_string[count])
             else:
-                print("Invalid input, there cannot be an opening parenthesis after a digit")
-                print("or a closing parenthesis before a digit")
-                return
+                from Exceptions import OperatorError
+                raise OperatorError("Invalid input, there cannot be an opening parenthesis after a digit or a closing parenthesis before a digit")
         elif(isinstance(calc_string[count], Operator)):
 
+            if(count == 0):
+                if(isinstance(calc_string[count], PairOperator) and not
+                    calc_string[count].operator == '-'):
+                    from Exceptions import OperatorError
+                    raise OperatorError("Invalid input, there cannot be a pair operator at the beginning")
             if(check_operation(calc_string[count+1], calc_string[count])):
-                print("Invalid input, there cannot be two operations next to each other that are"+
+                from Exceptions import OperatorError
+                raise OperatorError("Invalid input, there cannot be two operations of the same type next to each other that are"+
                 "not minuses or an operation next to a minus without a number or bracket before it")
-                return
                 
             else:
                 if(calc_string[count].operator != '-'): 
@@ -45,19 +49,19 @@ def clean_input(calc_string, valid_calc_string):
 
         elif(calc_string[count] == '(' or calc_string[count] == ')'):
             valid_calc_string.append(calc_string[count])
-        else:
-            print("invalid input, only parenthesis, numbers and operations are allowed")
-            return
+            
     if(calc_string[-1] == ')' or type(calc_string[-1]) == (int or float) or isinstance(calc_string[-1], RightOperator)):
         valid_calc_string.append(calc_string[-1])
 
     plus_removal(valid_calc_string)
-    mathh = MathExpression()
-    mathh.set_expression(valid_calc_string)
-    mathh.parenthesis_checker()
-    calculator = Calculator(mathh.get_expression())
-    mathh.result = calculator.evaluate(calculator.expression)
-    out.output(mathh.result)
+    return valid_calc_string
+    # math_expression = MathExpression()
+    # math_expression.set_expression(valid_calc_string)
+    # math_expression.parenthesis_checker()
+    # calculator = Calculator(math_expression.get_expression())
+    # math_expression.result = calculator.evaluate(calculator.expression)
+    # out.output(math_expression.result)
+    # return math_expression.result
 
 
 def check_digit_parenth(digit_check, og_operator):
@@ -75,7 +79,7 @@ def check_digit_parenth(digit_check, og_operator):
 def check_operation(operation_check, og_operator):
     """Checks if there is an operation after an operation, returns false if the operations are logically correct"""
     if(isinstance(operation_check, Operator)):
-        check_operator_type(operation_check, og_operator)
+        return check_operator_type(operation_check, og_operator)
 
     elif(type(operation_check) == (int or float) and not
     isinstance(og_operator, RightOperator)):
@@ -111,7 +115,7 @@ def check_operator_type(operation_check, og_operator):
     elif(isinstance(operation_check, LeftOperator)):
         if(og_operator != '(' or not
             type(og_operator) == (int or float) or not
-            isinstance(og_operator, LeftOperator)):
+            og_operator.operator == '~'):
             return True
         return False
 

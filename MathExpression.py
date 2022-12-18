@@ -47,12 +47,13 @@ class MathExpression:
                 countleft += 1
             elif(self.expression[i] == ')'):
                 if(self.expression[i-1] == '('):
-                    print("parenthesis are invalid")
-                    return
+                    from Exceptions import ParenthesisError
+                    raise ParenthesisError("parenthesis are invalid")
                 countright += 1
         if(countleft != countright):
-            print("Invalid input, there are an unequal amount of left and right parenthesis")
-            return
+            from Exceptions import ParenthesisError
+            raise ParenthesisError("Invalid input, there are an unequal amount of left and right parenthesis")
+            
         self.parenthesis_list_index()
 
     def parenthesis_list_index(self):
