@@ -16,7 +16,7 @@ def main(string = None, test = False):
     math_expression = MathExpression()
     math_expression.set_expression_from_string(validated_string, test_check=test)
 
-    validated_string = wrap_try(math_expression.get_expression(), test_check = True)
+    validated_string = wrap_try(math_expression.get_expression(),valid_calc_string=[], test_check = test)
     math_expression.set_expression(validated_string)
     math_expression.parenthesis_checker()
     calculator = Calculator(math_expression.get_expression())

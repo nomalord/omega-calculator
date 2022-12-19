@@ -214,7 +214,7 @@ def plus_removal(valid_calc_string):
 def wrap_try(calc_string, valid_calc_string = [], test_check = False):
     from Exceptions import OperatorError
     try:
-        return clean_input(calc_string)
+        return clean_input(calc_string, valid_calc_string)
 
     except OperatorError as oe:
         print(oe)

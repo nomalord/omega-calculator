@@ -88,7 +88,7 @@ def test_complex_equation_1():
     assert main("(3*(5-2)!)/((2!)/((-9^2)!)+10)") == 1.8
 
 def test_complex_equation_2():
-    assert main("((5&9)^(5^2$-4)- 3!)*-(-2@8!#!)") == -5.407303571701049e+22
+    assert main("((5&9)^(5$2@-4)- 3!)*-(-2@8!#!)") == 682924.0622304156
 
 def test_complex_equation_3():
     assert main("5!#^ 2 -(2^(-(2^2)@(2^3)))!") == -15.0
